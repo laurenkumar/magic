@@ -1,0 +1,79 @@
+<div class="row">
+	<div class="col-md-3">
+		<%= render 'room_menu' %>
+	</div>
+	<div class="col-md-9">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				Listing
+			</div>
+			<div class="panel-body">
+				<div class="container">
+					<%= form_for @room do |f| %>
+				<div class="row">
+
+					<div class="col-md-4 select">
+						<div class="form-group">
+							<label>Home Type</label>
+							<select class="form-control" name="room[home_type]" id="room_home_type">
+								<option value="">Select...</option>
+
+								<% @home_type.each do |h| %>
+									<% if @room.home_type == h.name %>
+									<option value="<%= h.name %>" selected><%= h.name %></option>
+									<% end %>
+									<option value="<%= h.name %>" ><%= h.name %></option>
+								<%end%>
+							</select>
+						</div>
+
+					</div>
+
+					<div class="col-md-4 select">
+						<div class="form-group">
+							<label>Room Type</label>
+							<select class="form-control" name="room[room_type]" id="room_room_type">
+								<option value="">Select...</option>
+
+								<% @room_type.each do |r| %>
+									<% if @room.room_type == r.name %>
+									<option value="<%= r.name %>" selected><%= r.name %></option>
+									<% end %>
+									<option value="<%= r.name %>"><%= r.name %></option>
+								<%end%>
+							</select>
+						</div>
+
+					</div>
+
+					<% @commodities.each do |r| %>
+					<div class="col-md-4 select">
+						<div class="form-group">
+							<label><%= r.name %></label>
+							<select class="form-control" name="room[<%= r.name %>]" id="room_<%= r.name %>">
+								<option value="">Select...</option>
+								<option value="<%= r.maxvalue %>" ><%= r.maxvalue %></option>
+							</select>
+						</div>
+					</div>
+					<script>
+						var id = $("#room_<%= r.name %>");
+						var html = "";
+						for(i = 1, l = <%= r.maxvalue %>; i <= l; i++) {
+				           html += "<option value='"+ i+"'>"+ i + "</option>";
+				       	}
+				       	if(html) {
+				           id.html(html);
+				        }
+					</script>
+					<%end%>
+
+
+				</div>
+				<div><%= f.submit "Save", class: "btn btn-normal"  %></div>
+				<% end %>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,3 @@
+class HomeType < ApplicationRecord
+
+end

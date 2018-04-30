@@ -1,0 +1,127 @@
+<!-- Static navbar -->
+<% if current_page? ('/') %>
+<nav id="navbar_home" class="navbar navbar-default navbar-static-top" style="margin-bottom: 0px;">
+  <% else %>
+  <nav class="navbar navbar-default navbar-static-top" style="margin-bottom: 0px;">
+    <% end %>
+    <% if !current_page? ('/') %>
+    <div class="container">
+      <% end %>
+      <div class="navbar-header">
+        <a href="/"> <%= image_tag("/assets/logo_blue_small.png", class: "logo navbar-brand") %></a>
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">TYPIKHOUSE</a>
+        
+        <div id="search_mobile">
+          <%= form_tag search_path, method: :get do %>
+          <div class="row navbar_mobile">
+            <div class="w-50">
+              <%= text_field_tag :search, params[:search], placeholder: "where are you going?", class: "form-control two_bar", id:"auto-location" %>
+              <%= submit_tag "", class: "btn btn-normal btn-block no_bar" %>
+            </div>
+          </div>
+          <% end %>
+        </div>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <%= form_tag search_path, class: "navbar-form navbar-left", method: :get do %>
+        <div class="form-group">
+          <% if !current_page? ('/') %>
+          <%= text_field_tag :search, params[:search], placeholder: "Anywhere", class: "form-control hidden", id:"autoLocation" %>
+          <% end %>
+        </div>
+        <% end %>
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <% if !current_page? ('/') %>
+            <button class="btn btn-form btn-small">
+              <%= link_to "Become a host", new_room_path, style: "color: white; text-decoration: none;" %>
+            </button>
+            <% end %>
+          </li>
+          <% if (!user_signed_in?) %>
+          <!-- Trigger the modal with a button -->
+          <button type="button" class="btn btn-log_sign" data-toggle="modal" data-target="#myModalLogin">Login</button>
+          <button type="button" class="btn btn-log_sign" data-toggle="modal" data-target="#myModalSign">Sign Up</button>
+          <!--<li><%= link_to "Login", new_user_session_path %></li>-->
+          <!--<li><%= link_to "Sign Up", new_user_registration_path %></li>-->
+          <% else %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <%= image_tag avatar_url(current_user), class: "img-circle avatar-small", alt:"user_image" %>
+              <%= current_user.fullname %> <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><%= link_to "Dashboard", dashboard_path %>
+              <li><%= link_to "Manage Listings", rooms_path %><!-- <a href="#">Manage Listings</a> --></li>
+              <li><%= link_to "List Your Space", new_room_path %></li>
+              <li><%= link_to "Your Renting", your_reservations_path %></li>
+              <li><%= link_to "Your Trips", your_trips_path %></li>
+              <li role="separator" class="divider"></li>
+              <li><%= link_to "Edit Profile", edit_user_registration_path %></li>
+              <li><%= link_to "Log out", destroy_user_session_path, method: :delete %></li>
+            </ul>
+          </li>
+          <% end %>
+
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </nav>
+
+  <!-- Modal login -->
+  <div id="myModalLogin" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <%= render partial: 'devise/sessions/new' %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal sign up-->
+  <div id="myModalSign" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <%= render partial: 'devise/registrations/new' %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- second menu -->
+<% if (user_signed_in?) && !current_page?(root_path) && !current_page?("/rooms/#{params[:id]}") %>
+  <nav class="navbar navbar-default" style="background-color: #565a5c38;">
+    <div class="container">
+      <ul class="nav navbar-nav">
+        <li <% if current_page?(dashboard_path) %> class="active" <% end %> ><%= link_to "Dashboard", dashboard_path %></li>
+        <li <% if current_page?(rooms_path) %> class="active" <% end %> ><%= link_to "Manage Listings", rooms_path %></li>
+      </ul>
+    </div>
+  </nav>
+<% end %>
+
+  <script>
+    $(function() {
+      $("#auto-location").geocomplete();
+      $("#autoLocation").geocomplete();
+    });
+  </script>

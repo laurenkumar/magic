@@ -1,0 +1,2 @@
+class CommoditiesWithInteger < ApplicationRecord
+end

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AtypikHouse</title>
+    <meta name="viewport" content="initial-scale=1">
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC68rZZdW01WpMInJPfT57uUa4qciGRQ5I&libraries=places"></script>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+    <%= stylesheet_link_tag    'jquery_ui', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <!-- <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.12.1/themes/hot-sneaks/jquery-ui.css"> -->
+
+  </head>
+
+  <% if current_page? ('/') %>
+      <body class="background-home">
+
+  <% else %>
+      <body class="background">
+    <% end %>
+
+    <%= render 'shared/navbar' %>
+    <%= render 'shared/message' %>
+
+    <% if current_page? ('/') %>
+      <div class="container_home">
+    <% else %>
+      <div class="container">
+    <% end %>
+      <%= yield %>
+    </div>
+  </body>
+</html>
